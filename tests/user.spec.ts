@@ -8,6 +8,6 @@ test("should be able to register to our application", async ({ page }) => {
     await page.type('[data-testid=password]', 'Test1234');
     await page.type('[data-testid=confirm-password]', 'Test1234');
     await page.click('[data-testid=submit]');
-    const welcomeMessage = page.locator('[data-testid=submit]');
+    const welcomeMessage = page.locator('[data-testid=welcome]');
     await expect(welcomeMessage).toBeVisible();
 });
