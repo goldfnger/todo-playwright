@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
+import { faker } from '@faker-js/faker'
 
 test("should be able to add a new todo", async ({ page }) => {
     await page.goto('/signup');
-    await page.type('[data-testid=first-name]', 'QAcart');
-    await page.type('[data-testid=last-name]', 'Awesome!');
-    await page.type('[data-testid=email]', 'test222@example.com');
+    await page.type('[data-testid=first-name]', faker.person.firstName());
+    await page.type('[data-testid=last-name]', faker.person.lastName());
+    await page.type('[data-testid=email]', faker.internet.email());
     await page.type('[data-testid=password]', 'Test1234');
     await page.type('[data-testid=confirm-password]', 'Test1234');
     await page.click('[data-testid=submit]');
@@ -22,9 +23,9 @@ test("should be able to add a new todo", async ({ page }) => {
 
 test("should be able to delete a todo", async ({ page }) => {
     await page.goto('/signup');
-    await page.type('[data-testid=first-name]', 'QAcart');
-    await page.type('[data-testid=last-name]', 'Awesome!');
-    await page.type('[data-testid=email]', 'test223@example.com');
+    await page.type('[data-testid=first-name]', faker.person.firstName());
+    await page.type('[data-testid=last-name]', faker.person.lastName());
+    await page.type('[data-testid=email]', faker.internet.email());
     await page.type('[data-testid=password]', 'Test1234');
     await page.type('[data-testid=confirm-password]', 'Test1234');
     await page.click('[data-testid=submit]');
