@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { faker } from '@faker-js/faker'
 import User from "../models/User";
+import UserAPI from "../APIs/UserAPI";
 test("should be able to add a new todo", async ({ page, request, context }) => {
     const user = new User(
         faker.person.firstName(),
@@ -8,14 +9,7 @@ test("should be able to add a new todo", async ({ page, request, context }) => {
         faker.internet.email(),
         'Test1234');
 
-    const response = await request.post('/api/v1/users/register', {
-        data: {
-            email: user.getEmail(),
-            password: user.getPassword(),
-            firstName: user.getFirstName(),
-            lastName: user.getLastName()
-        },
-    });
+    const response = await new UserAPI().signup(request, user);
 
     const responseBody = await response.json();
     const accessToken = responseBody.access_token;
@@ -56,15 +50,8 @@ test("should be able to delete a todo", async ({ page, request, context }) => {
         faker.person.lastName(),
         faker.internet.email(),
         'Test1234');
-        
-    const response = await request.post('/api/v1/users/register', {
-        data: {
-            email: user.getEmail(),
-            password: user.getPassword(),
-            firstName: user.getFirstName(),
-            lastName: user.getLastName()
-        },
-    });
+
+    const response = await new UserAPI().signup(request, user);
 
     const responseBody = await response.json();
     const accessToken = responseBody.access_token;
