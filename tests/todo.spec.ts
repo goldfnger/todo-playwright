@@ -5,12 +5,7 @@ import UserAPI from "../APIs/UserAPI";
 import TodoAPI from "../APIs/TodoAPI";
 
 test("should be able to add a new todo", async ({ page, request, context }) => {
-    const user = new User(
-        faker.person.firstName(),
-        faker.person.lastName(),
-        faker.internet.email(),
-        'Test1234');
-
+    const user = new User();
     const response = await new UserAPI().signup(request, user);
 
     const responseBody = await response.json();
@@ -47,12 +42,7 @@ test("should be able to add a new todo", async ({ page, request, context }) => {
 });
 
 test("should be able to delete a todo", async ({ page, request, context }) => {
-    const user = new User(
-        faker.person.firstName(),
-        faker.person.lastName(),
-        faker.internet.email(),
-        'Test1234');
-
+    const user = new User();
     const response = await new UserAPI().signup(request, user);
 
     const responseBody = await response.json();

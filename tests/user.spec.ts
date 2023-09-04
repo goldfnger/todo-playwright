@@ -2,11 +2,7 @@ import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import User from '../models/User';
 test("should be able to register to our application", async ({ page }) => {
-    const user = new User(
-        faker.person.firstName(),
-        faker.person.lastName(),
-        faker.internet.email(),
-        'Test1234');
+    const user = new User();
 
     await page.goto('/signup');
     await page.type('[data-testid=first-name]', user.getFirstName());
