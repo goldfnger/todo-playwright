@@ -1,13 +1,19 @@
 import { test, expect } from "@playwright/test";
 import { faker } from '@faker-js/faker'
-
+import User from "../models/User";
 test("should be able to add a new todo", async ({ page, request, context }) => {
+    const user = new User(
+        faker.person.firstName(),
+        faker.person.lastName(),
+        faker.internet.email(),
+        'Test1234');
+
     const response = await request.post('/api/v1/users/register', {
         data: {
-            email: faker.internet.email(),
-            password: "Test1234",
-            firstName: faker.person.firstName(),
-            lastName: faker.person.lastName()
+            email: user.getEmail(),
+            password: user.getPassword(),
+            firstName: user.getFirstName(),
+            lastName: user.getLastName()
         },
     });
 
@@ -45,12 +51,18 @@ test("should be able to add a new todo", async ({ page, request, context }) => {
 });
 
 test("should be able to delete a todo", async ({ page, request, context }) => {
+    const user = new User(
+        faker.person.firstName(),
+        faker.person.lastName(),
+        faker.internet.email(),
+        'Test1234');
+        
     const response = await request.post('/api/v1/users/register', {
         data: {
-            email: faker.internet.email(),
-            password: "Test1234",
-            firstName: faker.person.firstName(),
-            lastName: faker.person.lastName()
+            email: user.getEmail(),
+            password: user.getPassword(),
+            firstName: user.getFirstName(),
+            lastName: user.getLastName()
         },
     });
 
