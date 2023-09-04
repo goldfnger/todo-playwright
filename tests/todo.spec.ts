@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 import { faker } from '@faker-js/faker'
 import User from "../models/User";
 import UserAPI from "../APIs/UserAPI";
+import TodoAPI from "../APIs/TodoAPI";
+
 test("should be able to add a new todo", async ({ page, request, context }) => {
     const user = new User(
         faker.person.firstName(),
@@ -58,6 +60,9 @@ test("should be able to delete a todo", async ({ page, request, context }) => {
     const firstName = responseBody.firstName;
     const userID = responseBody.userID;
 
+    user.setAccessToken(accessToken);
+    user.setUserID(userID);
+
     await context.addCookies([
         {
             name: 'access_token',
@@ -76,15 +81,7 @@ test("should be able to delete a todo", async ({ page, request, context }) => {
         }
     ]);
 
-    await request.post('/api/v1/tasks', {
-        data: {
-            isCompleted: false,
-            item: "Learn Playwright",
-        },
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    });
+    await new TodoAPI().addTodo(request, user);
 
     await page.goto('/todo');
     await page.click('[data-testid=delete]');
