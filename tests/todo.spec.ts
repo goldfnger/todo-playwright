@@ -2,35 +2,15 @@ import { test, expect } from "@playwright/test";
 import User from "../models/User";
 import UserAPI from "../APIs/UserAPI";
 import TodoAPI from "../APIs/TodoAPI";
+import SignupPage from "../pages/SignupPage";
+import TodoPage from "../pages/TodoPage";
 
 test("should be able to add a new todo", async ({ page, request, context }) => {
     const user = new User();
-    const response = await new UserAPI().signup(request, user);
+    const signupPage = new SignupPage();
 
-    const responseBody = await response.json();
-    const accessToken = responseBody.access_token;
-    const firstName = responseBody.firstName;
-    const userID = responseBody.userID;
+    await signupPage.signupByAPI(request, user, context);
 
-    await context.addCookies([
-        {
-            name: 'access_token',
-            value: accessToken,
-            url: 'https://todo.qacart.com'
-        },
-        {
-            name: 'firstName',
-            value: firstName,
-            url: 'https://todo.qacart.com'
-        },
-        {
-            name: 'userID',
-            value: userID,
-            url: 'https://todo.qacart.com'
-        }
-    ]);
-
-    // expect(response).toBeOK();
     await page.goto('/todo');
     await page.click('[data-testid=add]');
     await page.type('[data-testid=new-todo]', 'Learn Playwright');
@@ -42,38 +22,14 @@ test("should be able to add a new todo", async ({ page, request, context }) => {
 
 test("should be able to delete a todo", async ({ page, request, context }) => {
     const user = new User();
-    const response = await new UserAPI().signup(request, user);
+    const signupPage = new SignupPage();
+    const todoPage = new TodoPage();
 
-    const responseBody = await response.json();
-    const accessToken = responseBody.access_token;
-    const firstName = responseBody.firstName;
-    const userID = responseBody.userID;
-
-    user.setAccessToken(accessToken);
-    user.setUserID(userID);
-
-    await context.addCookies([
-        {
-            name: 'access_token',
-            value: accessToken,
-            url: 'https://todo.qacart.com'
-        },
-        {
-            name: 'firstName',
-            value: firstName,
-            url: 'https://todo.qacart.com'
-        },
-        {
-            name: 'userID',
-            value: userID,
-            url: 'https://todo.qacart.com'
-        }
-    ]);
-
+    await signupPage.signupByAPI(request, user, context);
     await new TodoAPI().addTodo(request, user);
 
-    await page.goto('/todo');
-    await page.click('[data-testid=delete]');
-    const noTodosMessage = page.locator('[data-testid=no-todos]');
+    await todoPage.load(page);
+    await todoPage.deleteTodo(page);
+    const noTodosMessage = await todoPage.getNoTodosMessage(page);
     await expect(noTodosMessage).toBeVisible();
 });
