@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import { faker } from '@faker-js/faker';
 import User from '../models/User';
 test("should be able to register to our application", async ({ page }) => {
     const user = new User();
