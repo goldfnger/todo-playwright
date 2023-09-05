@@ -1,5 +1,6 @@
-import { Page } from "@playwright/test";
+import { APIRequestContext, BrowserContext, Page } from "@playwright/test";
 import User from "../models/User";
+import UserAPI from "../APIs/UserAPI";
 
 export default class SignupPage {
     private get firstNameInput() {
@@ -37,5 +38,38 @@ export default class SignupPage {
         await page.type(this.passwordInput, user.getPassword());
         await page.type(this.confirmPasswordInput, user.getPassword());
         await page.click(this.submitInput);
+    }
+
+    async signupByAPI(
+        request: APIRequestContext,
+        user: User,
+        context: BrowserContext) {
+        const response = await new UserAPI().signup(request, user);
+
+        const responseBody = await response.json();
+        const accessToken = responseBody.access_token;
+        const firstName = responseBody.firstName;
+        const userID = responseBody.userID;
+
+        user.setAccessToken(accessToken);
+        user.setUserID(userID);
+
+        await context.addCookies([
+            {
+                name: 'access_token',
+                value: accessToken,
+                url: 'https://todo.qacart.com'
+            },
+            {
+                name: 'firstName',
+                value: firstName,
+                url: 'https://todo.qacart.com'
+            },
+            {
+                name: 'userID',
+                value: userID,
+                url: 'https://todo.qacart.com'
+            }
+        ]);
     }
 }
