@@ -1,6 +1,7 @@
 import { APIRequestContext, BrowserContext, Page } from "@playwright/test";
 import User from "../models/User";
 import UserAPI from "../APIs/UserAPI";
+import config from "../playwright.config";
 
 export default class SignupPage {
     private get firstNameInput() {
@@ -58,17 +59,17 @@ export default class SignupPage {
             {
                 name: 'access_token',
                 value: accessToken,
-                url: 'https://todo.qacart.com'
+                url: config.use?.baseURL
             },
             {
                 name: 'firstName',
                 value: firstName,
-                url: 'https://todo.qacart.com'
+                url: config.use?.baseURL
             },
             {
                 name: 'userID',
                 value: userID,
-                url: 'https://todo.qacart.com'
+                url: config.use?.baseURL
             }
         ]);
     }
