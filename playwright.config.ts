@@ -23,7 +23,6 @@ export default defineConfig({
   reporter: 'allure-playwright',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    headless: false,
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'https://todo.qacart.com',
 
