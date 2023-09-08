@@ -1,0 +1,4 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Fri Sep 08 09:36:08 GMT 2023","Fri Sep 08 09:36:11 GMT 2023","3034","chromium","todo.spec.ts","","","","should be able to delete a todo",""
+"passed","Fri Sep 08 09:36:11 GMT 2023","Fri Sep 08 09:36:13 GMT 2023","2627","chromium","user.spec.ts","","","","should be able to register to our application",""
+"passed","Fri Sep 08 09:36:03 GMT 2023","Fri Sep 08 09:36:08 GMT 2023","4890","chromium","todo.spec.ts","","","","should be able to add a new todo",""
